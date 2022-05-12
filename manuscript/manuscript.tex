@@ -1,0 +1,112 @@
+\documentclass{article}\usepackage[]{graphicx}\usepackage[]{color}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+\usepackage{natbib}      % cross referencing bibliography entries
+\usepackage{amsmath, amsthm, amsfonts}
+\usepackage{graphicx}    % importing graphics into figures
+\usepackage{multirow}    % tables with multiple rows
+\usepackage{slashbox}    % tables with slash
+\usepackage{rotating}    % for vertical words in table
+\usepackage{color}       % for textcolor.. (temporary use before submission)
+\usepackage{bm}
+\usepackage[section]{placeins} % ensure floats do not go into the next section.
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+\section{Introduction}
+There are two styles of Olympic wrestling: Freestyle and Greco-Roman.  The scoring for both of these two styles is largely the same with points award for takedowns (2-4?) and back exposures (2 points, 5 point throws).  The major difference between these two styles is that in Greco-Roman the wrestlers are not allowed to touch the opponents legs other than incidental contact whereas is freestyle, leg attacks are allowed.  
+
+In the United States, there is an additional type of wrestling contested in high schools and colleges termed Folkstyle wrestling.  Folkstyle wrestling is relatively similar to freestyle wrestling with several substantial differences.  Most notably, in folkstyle a point is awarded for an escape whereas escapes are worth nothing in freestyle, and in folkstyle points for back exposures can only be scored if the the back is held in the exposed position for a period of time whereas in freestyle (and Greco), any back exposure initiated by the opponent, no matter how brief, results in points.  
+
+\section{Markov Chains}
+\subsection{Discrete Markov Chains}
+Folkstyle wrestling can be viewed as a series of states (i.e. neutral, top, bottom, back exposure) and points are scored when wrestlers move from one state to another.  Further, in order to know the number of points scored when transitioning from one state to another, one only needs to know the current state (i.e. none of the previous states matter when determining scoring).  Therefore, a wrestling match can be well modeled by a Markov chain.   
+
+A Markov chain \citep{Ross2003} is a stochastic process, $X_t$, characterized by a set of states $\{0, 1, 2, \}$, an initial probability vector, and a matrix of transition probabilities.  When was say that $X_t = i$ this means that the process is in state $i$ at time $t$.  
+
+Further, in a Markov chain the transition probabilities, $P_{ij}$, only depend on the current state of the process.  Specifically, 
+$P(X_{t+1} = j|X_{t} = i, X_{t-1} = i_{i-1}, \cdots, X_{1} = i_{1}, X_{0} = i_{0}) = P(X_{t+1} = j|X_{t} = i) =  P_{ij}$ where $P_{ij}$ is the probability of transitioning from state $i$ to state $j$.    
+
+In a wrestling application, the states of the Markov chain would be all of the possible states of a wrestling match (Green and Red are used to distinguish between the two wrestlers): 
+\begin{itemize}
+\item Green exposing Red's back
+\item Green on top
+\item Neutral
+\item Red on top
+\item Red exposing Green's back
+\end{itemize}
+
+The transition probabilities in this example would simply be the probability of moving from one state of the wrestling match to a different state of the match. For instance, moving from neutral to green on top would be a state transition.  In this way, and entire wrestling match can be viewed as a stochastic process.  
+
+However, the Markov chain set up here will not work as in this set up the state changes occur at well-defined, discrete intervals.  Therefore, we need continuous time Markov Chains (CTMC).   
+
+\subsection{Continuous Time Markov Chains}
+Continuous time Markov Chains (\cite{Andserson1991}) are the continuous generalization of discrete time Markov chains.  Rather than state transitions occurring at discrete intervals, the time until a state change is modeled with an exponential random variable with a parameter determined by the state transition rate matrix (which replaces the transition matrix in the discrete case).  The state transition rate matrix determines both WHEN a state change occurs and also WHICH state a transition is made to.  So in this case the Markov chain is charaterized by a series of states, a rate intensity matrix, and an initila probability vector.  
+
+Here we will refer to the rate intensity matrix as $Q$ with the elements of the matrix $q_{ij}$ ($i \ne j$) indicate the rate at which the process transitions from state $i$ to state $j$.  The diagonal elements of the matrix $Q$, $q_{ii}$, are chosen so that each row of $Q$ sums to 0.  Assuming a time-homogenenous process, the time spent in state $i$ is, as mentioned previousl, an exponential random variable with parameter $q_i$ where $q_i = \sum_{j \ne i}q_{ij}$ (\cite{Liu2015}).  
+
+\section{Methods}
+When all state transitions are observed, as in a wrestling match, the complete likelihood function is given by the following expression (\cite{Liu2015}):
+
+$$
+\prod_{i = 1}^{|S|}\prod_{j = 1,j\ne i}^{|S|} q_{ij}^{n_{ij}} e^{-q_i\tau_i}
+$$
+where $\tau_i$ is the total amount of time spent in state $i$ and $n_{ij}$ is the number of transitions from state $i$ to state $j$.  This likelihood can easily be maximized with standard maximization algorithm routines to arrive at Maximum likelihood estimates of the parameters of the state transition rate matrix.  
+
+\section{Ideas}
+Several things to explore would be to estimate these state transition matrices for different conferences in college wrestling to see if there are differences in styles that can be detected in the matrix $Q$.  An even more obvious question would be to look and compare the $Q$ matrix by weight classes to see how these differ by weights.  
+
+One could add another layer of complexity and begin to model the $Q$ matrix for individual wrestlers to look for differences in styles.  It would be kind of interesting to take the $Q$ matrix of two individual wrestlers and try to make match predictions based on their matrices.  In addition, it's possible that a wrestler looking at their $Q$ matrix could identify weaknesses in their performance and work to improve those areas to maximize their win probability (though I'm not exactly sure how that would work or what it would look like).  1
+
+
+\bibliography{wrestling}
+\bibliographystyle{chicago}
+
+\end{document}

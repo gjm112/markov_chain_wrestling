@@ -1,0 +1,21 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\citeauthoryear{Anderson}{Anderson}{1991}]{Andserson1991}
+Anderson, W.~J. (1991).
+\newblock {\em Continuous-time Markov chains: an applications-oriented
+  approach}.
+\newblock Springer.
+
+\bibitem[\protect\citeauthoryear{Liu, Li, Song, and Rehg}{Liu
+  et~al.}{2015}]{Liu2015}
+Liu, Y., S.~Li, L.~Song, and J.~Rehg (2015).
+\newblock Efficient learning of continuous-time hidden markov models for
+  disease progression.
+\newblock {\em Advances in Neural Inf Processes System\/}~{\em 28}, 3599--3607.
+
+\bibitem[\protect\citeauthoryear{Ross}{Ross}{2003}]{Ross2003}
+Ross, S. (2003).
+\newblock {\em Probability Models: 8th Edition}.
+\newblock Academic Press.
+
+\end{thebibliography}
